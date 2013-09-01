@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Configure these
+UBERSPACE=username
+DOMAIN=domain.tld
+
+SUBDOMAIN=$1
+SQLDB="${UBERSPACE}_$1"
+
+if [[ "$1" = "" ]]
+then
+	echo "Oops, no subdirectory name specified."
+	exit 1
+else
+	if [[ ! -d "/var/www/virtual/$UBERSPACE/$SUBDOMAIN.$DOMAIN" ]]
+	then
+		mysql -e "CREATE DATABASE \`$SQLDB\` CHARACTER SET utf8 COLLATE utf8_general_ci;"
+		mkdir "/var/www/virtual/$UBERSPACE/$SUBDOMAIN.$DOMAIN"
+		ln -s "/var/www/virtual/$UBERSPACE/$SUBDOMAIN.$DOMAIN" "/home/$UBERSPACE/stage/$SUBDOMAIN"
+		echo "$SUBDOMAIN.$DOMAIN is now operational."
+	else
+		echo "$SUBDOMAIN.$DOMAIN already exists."
+	fi
+fi

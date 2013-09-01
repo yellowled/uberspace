@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Configure these
+UBERSPACE=username
+DOMAIN=domain.tld
+
+SUBDOMAIN=$1
+SQLDB="${UBERSPACE}_$1"
+
+if [[ "$1" = "" ]]
+then
+	echo "Oops, no subdirectory name specified."
+	exit 1
+else
+	if [[ -d "/var/www/virtual/$UBERSPACE/$SUBDOMAIN.$DOMAIN" ]]
+	then
+		mysql -e "DROP DATABASE \`$SQLDB\`;"
+		rm -rf "/var/www/virtual/$UBERSPACE/$SUBDOMAIN.$DOMAIN"
+		rm "/home/$UBERSPACE/stage/$SUBDOMAIN"
+		echo "$SUBDOMAIN.$DOMAIN has been removed."
+	else
+		echo "Couldn't find $SUBDOMAIN.$DOMAIN ..?"
+	fi
+fi
