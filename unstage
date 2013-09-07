@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Configure these
-UBERSPACE=username
+# Domain associated with the Uberspace
 DOMAIN=domain.tld
 
+UBERSPACE=$(whoami)
 SUBDOMAIN=$1
 SQLDB="${UBERSPACE}_$1"
 
