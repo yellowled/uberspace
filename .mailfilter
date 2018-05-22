@@ -6,6 +6,19 @@ MAILDIR="$HOME/Maildir"
 TRASHDIR = "$MAILDIR/.Trash"
 SPAMDIR = "$MAILDIR/.Junk"
 
+# Check if we're called from a .qmail-EXT instead of .qmail
+import EXT
+if ( $EXT )
+{
+    # Does a vmailmgr user named $EXT exist?
+    # If yes, deliver mail to his Maildir instead
+    CHECKMAILDIR = `dumpvuser $EXT | grep '^Directory' | awk '{ print $2 }'`
+    if ( $CHECKMAILDIR )
+    {
+        MAILDIR="$HOME/$CHECKMAILDIR"
+    }
+}
+
 # Check folder structure
 `test -d "$SPAMDIR" || maildirmake "$SPAMDIR"`
 
