@@ -1,10 +1,8 @@
 # Logfile
 logfile "$HOME/mailfilter.log"
 
-# Maildir(s)
+# Set maildir
 MAILDIR="$HOME/Maildir"
-TRASHDIR = "$MAILDIR/.Trash"
-SPAMDIR = "$MAILDIR/.Junk"
 
 # Check if we're called from a .qmail-EXT instead of .qmail
 import EXT
@@ -18,6 +16,10 @@ if ( $EXT )
         MAILDIR="$HOME/$CHECKMAILDIR"
     }
 }
+
+# Set directories
+TRASHDIR = "$MAILDIR/.Trash"
+SPAMDIR = "$MAILDIR/.Junk"
 
 # Check folder structure
 `test -d "$SPAMDIR" || maildirmake "$SPAMDIR"`
