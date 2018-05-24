@@ -25,7 +25,7 @@ SPAMDIR = "$MAILDIR/.Junk"
 `test -d "$SPAMDIR" || maildirmake "$SPAMDIR"`
 
 ### Spam === high score from rspamd
-if (/^X-Rspamd-Score: *([+-]?[0-9.]+)/:h && $MATCH1 >= 8)
+if (/^X-Rspamd-Score: *([+-]?[0-9.]+)/:h && $MATCH1 >= 6)
 {
   log "SPAM: Rspamd score=$MATCH1"
   to "$SPAMDIR"
