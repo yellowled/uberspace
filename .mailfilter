@@ -17,11 +17,17 @@ if ( $EXT )
     }
 }
 
-# Set directories
+# Filtering for mailing lists
+if (/^To:.*webkrauts@yahoogroups\.de/:h || /^Cc:.*webkrauts@yahoogroups\.de/:h)
+{
+    MAILDIR="$MAILDIR/.Webkrauts"
+    `test -d "$MAILDIR/" || maildirmake "$MAILDIR/"`
+    to "$MAILDIR";
+}
+
+# Directory structure for spam filter
 TRASHDIR = "$MAILDIR/.Trash"
 SPAMDIR = "$MAILDIR/.Junk"
-
-# Check folder structure
 `test -d "$SPAMDIR" || maildirmake "$SPAMDIR"`
 
 ### Spam === high score from rspamd
@@ -32,5 +38,5 @@ if (/^X-Rspamd-Score: *([+-]?[0-9.]+)/:h && $MATCH1 >= 5)
   #to "$TRASHDIR"
 }
 
-# Deliver mail
+# Deliver remaining mail
 to "$MAILDIR"
